@@ -35,19 +35,7 @@ html, body {
     margin: 15px 0 10px;
 }
 
-.container button {
-    background-color: #0071bC;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border-radius: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    cursor: pointer;
-}
+
 
 .container button.hidden {
     background-color: transparent;
@@ -65,16 +53,6 @@ html, body {
     text-align: center;
 }
 
-.container input {
-    background-color: #eee;
-    border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-}
 
 .form-container {
     position: absolute;
@@ -200,4 +178,18 @@ html, body {
 .container.active .toggle-right {
     transform: translateX(200%);
 }
+
+.password-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
 

@@ -1,28 +1,67 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
+import Button from "../../../../components/Button/Button";
+import Input from "../../../../components/Input/Input";
 import "./LoginScreen.scss";
+import SocialMedia from "./SocialMedia/SocialMedia";
+import SignIn from "./SignIn/SignIn";
+
+interface SignUpFormInputs {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const LoginScreen: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
+  const [showSignUpPassword, setShowSignUpPassword] = useState(false);
+
+  const [formValues, setFormValues] = useState<SignUpFormInputs>({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [formErrors, setFormErrors] = useState<Partial<SignUpFormInputs>>({});
+
+  const handleRegisterClick = () => {
+    setIsActive(true);
+  };
+
+  const handleLoginClick = () => {
+    setIsActive(false);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const validateForm = () => {
+    let errors: Partial<SignUpFormInputs> = {};
+    if (!formValues.name) errors.name = "Name is required";
+    if (!formValues.email) errors.email = "Email is required";
+    if (!formValues.password) errors.password = "Password is required";
+    return errors;
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const errors = validateForm();
+    if (Object.keys(errors).length === 0) {
+      console.log("Sign Up Data:", formValues);
+    } else {
+      setFormErrors(errors);
+    }
+  };
 
   useEffect(() => {
-    const container = document.getElementById("container");
     const registerBtn = document.getElementById("register");
     const loginBtn = document.getElementById("login");
 
-    const handleRegisterClick = () => {
-      if (container) container.classList.add("active");
-      setIsActive(true);
-    };
-
-    const handleLoginClick = () => {
-      if (container) container.classList.remove("active");
-      setIsActive(false);
-    };
-
     registerBtn?.addEventListener("click", handleRegisterClick);
     loginBtn?.addEventListener("click", handleLoginClick);
-
 
     return () => {
       registerBtn?.removeEventListener("click", handleRegisterClick);
@@ -32,70 +71,42 @@ const LoginScreen: React.FC = () => {
 
   return (
     <div className={`container ${isActive ? "active" : ""}`} id="container">
+      {/* Formulario de Sign Up */}
       <div className="form-container sign-up">
-        <form>
-          <h1>Create Account</h1>
-          <div className="social-icons">
-            <a href="#" className="icon">
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-google"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-linkedin"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-github"></i>
-            </a>
-          </div>
+        <form onSubmit={handleSubmit}>
+          <SocialMedia title="Sign up" />
           <span>or use your email for registration</span>
-          <input type="text" placeholder="Name" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <button>Sign Up</button>
+          <Input
+            name="name"
+            type="text"
+            placeholder="Name"
+            value={formValues.name}
+            onChange={handleInputChange}
+            error={formErrors.name}
+          />
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={formValues.email}
+            onChange={handleInputChange}
+            error={formErrors.email}
+          />
+          <div className="password-container">
+            <Input
+              name="password"
+              type={showSignUpPassword ? "text" : "password"}
+              placeholder="Password"
+              value={formValues.password}
+              onChange={handleInputChange}
+              error={formErrors.password}
+              showPasswordToggle={true}
+            />
+          </div>
+          <Button type="submit" text="Sign Up" />
         </form>
       </div>
-      <div className="form-container sign-in">
-        <form>
-          <h1>Sign in</h1>
-          <div className="social-icons">
-            <a href="#" className="icon">
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-google"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-linkedin"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-github"></i>
-            </a>
-          </div>
-          <span>or use your account</span>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <a href="#">Forgot your password?</a>
-          <button>Sign In</button>
-        </form>
-      </div>
-      <div className="toggle-container">
-        <div className="toggle">
-          <div className="toggle-panel toggle-left">
-            <h1>Welcome Back</h1>
-            <p>
-              To keep connected with us please login with your personal info
-            </p>
-            <button id="login">Sign In</button>
-          </div>
-          <div className="toggle-panel toggle-right">
-            <h1>Hello, Friend</h1>
-            <p>Enter your personal details and start journey with us</p>
-            <button id="register">Sign Up</button>
-          </div>
-        </div>
-      </div>
+      <SignIn />
     </div>
   );
 };
