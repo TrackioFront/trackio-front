@@ -8,8 +8,6 @@ const Alert: React.FC = () => {
   useEffect(() => {
     const handleShowAlert = ({ message, type }: { message: string; type: string }) => {
       setAlertData({ message, type });
-
-      // Ocultar la alerta después de 3 segundos
       setTimeout(() => {
         setAlertData(null);
       }, 3000);
@@ -17,7 +15,6 @@ const Alert: React.FC = () => {
 
     eventBus.on("show-alert", handleShowAlert);
 
-    // Limpiar la suscripción cuando se desmonte el componente
     return () => {
       eventBus.off("show-alert", handleShowAlert);
     };

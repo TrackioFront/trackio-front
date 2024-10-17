@@ -6,8 +6,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   showPasswordToggle?: boolean;
-  value?: string; // añadimos la prop 'value' para manejar el estado controlado
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // manejador de cambio
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -17,13 +17,12 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   showPasswordToggle = false,
   error,
-  value = "", // usamos una prop para el valor del input
-  onChange, // pasamos el manejador de cambio desde el padre
+  value,
+  onChange,
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  // Cambia el tipo de input según el estado del toggle de contraseña
   const inputType = showPassword && showPasswordToggle ? "text" : type;
 
   return (
