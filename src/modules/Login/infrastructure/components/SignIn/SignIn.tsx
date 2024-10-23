@@ -9,12 +9,9 @@ import LoginUseCases from "../../../application/LoginUseCases";
 import showAlert from "../../../../../utils/alertService";
 import { useTranslation } from "react-i18next";
 
-interface SignInProps {
-  handleRegisterClick: () => void;
-}
 const loginController = new LoginController();
 
-const SignIn: React.FC<SignInProps> = (handleRegisterClick) => {
+const SignIn: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({ email: "", password: "" });
@@ -40,7 +37,6 @@ const SignIn: React.FC<SignInProps> = (handleRegisterClick) => {
     }
 
     if (!formValues.password) {
-      formErrors.password = t("passwordRequired");
       formErrors.password = (t("passwordRequired"));
       valid = false;
     }
@@ -49,9 +45,7 @@ const SignIn: React.FC<SignInProps> = (handleRegisterClick) => {
     return valid;
   };
 
-  const onSignInSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const onSignInSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) {
