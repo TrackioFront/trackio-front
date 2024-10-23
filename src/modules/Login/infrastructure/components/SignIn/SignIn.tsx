@@ -105,7 +105,8 @@ const SignIn: React.FC = () => {
             <p>{t("textRecoveryPassword")}</p>
             <Button
               id="forgotPassword"
-              text={t("forgotPassword")}
+              text={t("signIn")}
+              onClick={() => navigate("/login", { replace: true })}
             />
           </div>
         </div>

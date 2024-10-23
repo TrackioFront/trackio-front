@@ -66,7 +66,6 @@ const PassRecovery: React.FC<PassRecoveryProps> = ({
   };
 
   return (
-    <>
     <div className="container">
     <div className="form-container sign-up">
         <form onSubmit={handleSubmit}>
@@ -80,9 +79,22 @@ const PassRecovery: React.FC<PassRecoveryProps> = ({
           />
           <Button type="submit" text="Sign Up" />
         </form>
+    </div>
+    <div className="toggle-container">
+        <div className="toggle">
+          <div className="toggle-panel toggle-right">
+            <h1>{t("helloTracker")}</h1>
+            <p>{t("textRecoveryPassword")}</p>
+            <Button
+              id="forgotPassword"
+              text={t("forgotPassword")}
+              onClick={() => navigate("/resetPassword", { replace: true })}
+
+            />
+          </div>
+        </div>
       </div>
     </div>
-    </>
   );
 };
 
