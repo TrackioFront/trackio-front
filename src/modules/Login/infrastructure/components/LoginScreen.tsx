@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../../../components/Button/Button";
-import Input from "../../../../components/Input/Input";
 import "./LoginScreen.scss";
-import SocialMedia from "./SocialMedia/SocialMedia";
+import { PassRecoveryFunctions } from "../../../PassRecovery/infrastructure/components/PassRecoveryFunctions";
 import SignIn from "./SignIn/SignIn";
 
 interface SignUpFormInputs {
@@ -31,12 +29,6 @@ const LoginScreen: React.FC = () => {
     setIsActive(false);
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
 
   const validateForm = () => {
     let errors: Partial<SignUpFormInputs> = {};
@@ -71,42 +63,8 @@ const LoginScreen: React.FC = () => {
 
   return (
     <div className={`container ${isActive ? "active" : ""}`} id="container">
-      {/* Formulario de Sign Up */}
-      <div className="form-container sign-up">
-        <form onSubmit={handleSubmit}>
-          <SocialMedia title="Sign up" />
-          <span>or use your email for registration</span>
-          <Input
-            name="name"
-            type="text"
-            placeholder="Name"
-            value={formValues.name}
-            onChange={handleInputChange}
-            error={formErrors.name}
-          />
-          <Input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={formValues.email}
-            onChange={handleInputChange}
-            error={formErrors.email}
-          />
-          <div className="password-container">
-            <Input
-              name="password"
-              type={showSignUpPassword ? "text" : "password"}
-              placeholder="Password"
-              value={formValues.password}
-              onChange={handleInputChange}
-              error={formErrors.password}
-              showPasswordToggle={true}
-            />
-          </div>
-          <Button type="submit" text="Sign Up" />
-        </form>
-      </div>
       <SignIn />
+      <PassRecoveryFunctions />
     </div>
   );
 };

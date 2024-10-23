@@ -7,7 +7,7 @@ import { setUser, setIsLogin } from "../../../../../slices/userSlice";
 import LoginController from "../../controllers/Login.controller";
 import LoginUseCases from "../../../application/LoginUseCases";
 import showAlert from "../../../../../utils/alertService";
-import SocialMedia from "../SocialMedia/SocialMedia";
+import { useTranslation } from "react-i18next";
 
 const loginController = new LoginController();
 
@@ -17,6 +17,7 @@ const SignIn: React.FC = () => {
   const [formValues, setFormValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [showSignInPassword, setShowSignInPassword] = useState(false);
+  const { t } = useTranslation();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,12 +32,12 @@ const SignIn: React.FC = () => {
     let valid = true;
 
     if (!formValues.email) {
-      formErrors.email = "Email is required";
+      formErrors.email = t("emailRequired");
       valid = false;
     }
 
     if (!formValues.password) {
-      formErrors.password = "Password is required";
+      formErrors.password = t("passwordRequired");
       valid = false;
     }
 
@@ -44,7 +45,9 @@ const SignIn: React.FC = () => {
     return valid;
   };
 
-  const onSignInSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSignInSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -66,12 +69,12 @@ const SignIn: React.FC = () => {
     }
   };
 
+
+
   return (
     <>
       <div className="form-container sign-in">
         <form onSubmit={onSignInSubmit}>
-          <SocialMedia title="Sign in" />
-          <span>or use your account</span>
           <Input
             name="email"
             type="email"
@@ -91,23 +94,19 @@ const SignIn: React.FC = () => {
               showPasswordToggle={true}
             />
           </div>
-          <Button type="submit" text="Sign In" />
+          <Button type="submit" text={t("signIn")} />
         </form>
       </div>
 
       <div className="toggle-container">
         <div className="toggle">
-          <div className="toggle-panel toggle-left">
-            <h1>Welcome Back</h1>
-            <p>
-              To keep connected with us please login with your personal info
-            </p>
-            <Button id="login" text="Sign In" />
-          </div>
           <div className="toggle-panel toggle-right">
-            <h1>Hello, Friend</h1>
-            <p>Enter your personal details and start journey with us</p>
-            <Button id="register" text="Sign Up" />
+            <h1>{t("helloTracker")}</h1>
+            <p>{t("textRecoveryPassword")}</p>
+            <Button
+              id="forgotPassword"
+              text={t("forgotPassword")}
+            />
           </div>
         </div>
       </div>
