@@ -7,6 +7,8 @@ import { PassRecovery } from "./PassRecovery/PassRecovery";
 const LoginScreen: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
 
+
+
   const handleRegisterClick = () => {
     setIsActive(true);
   };
@@ -15,10 +17,14 @@ const LoginScreen: React.FC = () => {
     setIsActive(false);
   };
 
+
+
+
+
   useEffect(() => {
-    const registerBtn = document.getElementById("forgotPassword");
+    const registerBtn = document.getElementById("register");
     const loginBtn = document.getElementById("login");
-    
+
     registerBtn?.addEventListener("click", handleRegisterClick);
     loginBtn?.addEventListener("click", handleLoginClick);
 
@@ -30,10 +36,10 @@ const LoginScreen: React.FC = () => {
 
   return (
     <div className={`container ${isActive ? "active" : ""}`} id="container">
-      {isActive ? <PassRecovery /> : <SignIn handleRegisterClick={handleRegisterClick} />}
+      <PassRecovery/>
+      <SignIn />
     </div>
   );
 };
-
 
 export { LoginScreen };
