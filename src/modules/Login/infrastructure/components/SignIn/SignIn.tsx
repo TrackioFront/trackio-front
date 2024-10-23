@@ -9,9 +9,12 @@ import LoginUseCases from "../../../application/LoginUseCases";
 import showAlert from "../../../../../utils/alertService";
 import { useTranslation } from "react-i18next";
 
+interface SignInProps {
+  handleRegisterClick: () => void;
+}
 const loginController = new LoginController();
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC<SignInProps> = (handleRegisterClick) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({ email: "", password: "" });
@@ -69,8 +72,6 @@ const SignIn: React.FC = () => {
     }
   };
 
-
-
   return (
     <>
       <div className="form-container sign-in">
@@ -105,8 +106,8 @@ const SignIn: React.FC = () => {
             <p>{t("textRecoveryPassword")}</p>
             <Button
               id="forgotPassword"
-              text={t("signIn")}
-              onClick={() => navigate("/login", { replace: true })}
+              text={t("forgotPassword")}
+              onClick={handleRegisterClick}
             />
           </div>
         </div>
