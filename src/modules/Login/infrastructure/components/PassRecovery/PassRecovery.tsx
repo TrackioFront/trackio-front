@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import Input  from "../../../../../components/Input/Input";
 import Button from "../../../../../components/Button/Button";
 
@@ -10,6 +11,7 @@ interface SignUpFormInputs {
   }
 
 const PassRecovery: React.FC = () => {
+    const { t } = useTranslation();
     const [formValues, setFormValues] = useState<SignUpFormInputs>({
         name: "",
         email: "",
@@ -55,7 +57,7 @@ const PassRecovery: React.FC = () => {
             onChange={handleInputChange}
             error={formErrors.email}
           />
-          <Button type="submit" text="Recuperar contraseña" />
+          <Button type="submit" text={t("resetPassword")} />
         </form>
       </div>
     )

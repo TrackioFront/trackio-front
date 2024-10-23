@@ -1,9 +1,11 @@
 {
-    "requiredField": "todos los campos son obligatorios",
-    "emailRequired": "email es obligatorio",
-    "passwordRequired": "password es obligatorio",
-    "signIn": "Iniciar Sesion",
-    "helloTracker": "Hola Tracker",
-    "textRecoveryPassword": "Si olvidaste tu password, ingresa tu correo electronico para recuperarlo.",
-    "forgotPassword": "Olvide mi password"
+    "emailRequired": "Email es obligatorio",
+    "passwordRequired": "Password es obligatorio",
+    "credentialsError": "Credenciales incorrectas",
+    "signIn": "Iniciar sesión",
+    "welcome": "Bienvenido",
+    "welcomeText": "Para hacer seguimiento a tu tabajo inicia sesión con nosotros",
+    "hello": "Hola, Tracker",
+    "resetPasswordText": "Si olvidaste tu contraseña haz clic en el botón",
+    "resetPassword": "Restablecer contraseña"
 }

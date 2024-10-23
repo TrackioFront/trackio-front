@@ -1,9 +1,11 @@
 {
-    "requiredField": "all fields are required",
-    "emailRequired": "email is required",
-    "passwordRequired": "password is required",
-    "signIn": "Sign In",
-    "helloTracker": "Hello Tracker",
-    "textRecoveryPassword": "If you forgot your password, enter the registration email to recover it.",
-    "forgotPassword": "Forgot Password"
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "credentialsError": "Invalid email or password",
+    "signIn": "Sign in",
+    "welcome": "Welcome Back",
+    "welcomeText": "To track your work, log in with us",
+    "hello": "Hello, Tracker",
+    "resetPasswordText": "If you forgot your password, click on the button",
+    "resetPassword": "Reset Password"
 }

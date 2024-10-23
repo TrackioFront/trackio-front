@@ -7,6 +7,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { loadState } from './utils/localStorage';
 import { localStorageMiddleware } from './middlewares/localStorageMiddleware';
 import rootReducers from './reducers/rootReducers';
+import './i18n';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

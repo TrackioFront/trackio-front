@@ -41,6 +41,7 @@ const SignIn: React.FC<SignInProps> = (handleRegisterClick) => {
 
     if (!formValues.password) {
       formErrors.password = t("passwordRequired");
+      formErrors.password = (t("passwordRequired"));
       valid = false;
     }
 
@@ -68,7 +69,7 @@ const SignIn: React.FC<SignInProps> = (handleRegisterClick) => {
       dispatch(setIsLogin(true));
       navigate("/dashboard", { replace: true });
     } else {
-      showAlert("Credenciales incorrectas", "error");
+      showAlert(t("credentialsError"), "error");
     }
   };
 
@@ -101,14 +102,17 @@ const SignIn: React.FC<SignInProps> = (handleRegisterClick) => {
 
       <div className="toggle-container">
         <div className="toggle">
+          <div className="toggle-panel toggle-left">
+            <h1>{t("welcome")}</h1>
+            <p>
+              {t("welcomeText")}
+            </p>
+            <Button id="login" text="Sign In" />
+          </div>
           <div className="toggle-panel toggle-right">
-            <h1>{t("helloTracker")}</h1>
-            <p>{t("textRecoveryPassword")}</p>
-            <Button
-              id="forgotPassword"
-              text={t("forgotPassword")}
-              onClick={handleRegisterClick}
-            />
+            <h1>{t("hello")}</h1>
+            <p>{t("resetPasswordText")}</p>
+            <Button id="register" text={t("resetPassword")} />
           </div>
         </div>
       </div>
