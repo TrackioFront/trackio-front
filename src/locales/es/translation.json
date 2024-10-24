@@ -7,5 +7,7 @@
     "welcomeText": "Para hacer seguimiento a tu tabajo inicia sesión con nosotros",
     "hello": "Hola, Tracker",
     "resetPasswordText": "Si olvidaste tu contraseña haz clic en el botón",
-    "resetPassword": "Restablecer contraseña"
+    "resetPassword": "Restablecer contraseña",
+    "sendCode": "Código enviado",
+    "recoveryPassword": "Recuperar contraseña"
 }

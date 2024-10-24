@@ -10,9 +10,13 @@ export default class PassRecoveryController implements IPassRecoveryController {
         this.repository = new PassRecoveryRepository();
     }
 
-    async userPassRecovery(data: DataToPassRecovery): Promise<Boolean> {
+    async userPassRecovery(data: DataToPassRecovery): Promise<GenericResponse> {
         const response = await this.repository.userPassRecovery(data);
-        return response;
+        return {
+            data: response?.data, 
+            status: response?.status, 
+            message: response?.message
+        };
     }
 
     async sendCode(data: DataToPassRecovery): Promise<GenericResponse> {

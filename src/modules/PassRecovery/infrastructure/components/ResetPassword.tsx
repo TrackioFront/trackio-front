@@ -1,94 +1,116 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./PassRecovery.scss";
 import Input from "../../../../components/Input/Input";
 import Button from "../../../../components/Button/Button";
+import PassRecoveryUseCases from "../../application/PassRecoveryUseCases";
+import PassRecoveryController from "../controllers/PassRecovery.controller";
+import showAlert from "../../../../utils/alertService";
 
 interface SignUpFormInputs {
   password: string;
   confirmPassword: string;
 }
 
+const passRecoveryController = new PassRecoveryController();
+
 const ResetPassWord = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const [formValues, setFormValues] = useState<SignUpFormInputs>({
-    password: "",
-    confirmPassword: "",
-  });
+  const [newPassword, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [formErrors, setFormErrors] = useState<Partial<SignUpFormInputs>>({});
-  const [showSignUpPassword, setShowSignUpPassword] = useState(false);
+  const [token, setToken] = useState("");
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tokenParam = params.get("token");
+    if (tokenParam) {
+      setToken(tokenParam);
+    }
+  }, [location.search]);
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const confirmValue = e.target.value;
+    setConfirmPassword(confirmValue);
+    setPasswordsMatch(newPassword === confirmValue);
   };
 
   const validateForm = () => {
     let errors: Partial<SignUpFormInputs> = {};
-    if (!formValues.password) errors.password = "Password is required";
-    if (!formValues.confirmPassword)
-      errors.confirmPassword = "Confirm Password is required";
+    if (!newPassword) errors.password = "Password is required";
+    if (!confirmPassword) errors.confirmPassword = "Confirm Password is required";
+    if (newPassword && confirmPassword && newPassword !== confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
+    }
     return errors;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const errors = validateForm();
-    if (Object.keys(errors).length === 0) {
-      console.log("Sign Up Data:", formValues);
+    if (Object.keys(errors).length === 0 && passwordsMatch) {
+      console.log("Sign Up Data:", { newPassword, confirmPassword });
+      const data: any = { newPassword, token };
+      const response = await PassRecoveryUseCases.userPassRecovery(passRecoveryController, data);
+      console.log(response);
+      if (response.status === 200) {
+        navigate("/login");
+        showAlert(t("recoverySuccess"), "success");
+      }
     } else {
       setFormErrors(errors);
     }
   };
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const token = queryParams.get("token");
-
-    console.log(token);
-    if (!token) {
-      navigate("/resetPassword", { replace: true });
-    } else {
-    }
-  }, [location, navigate]);
-
   return (
     <div className="container">
-      <div className="form-container sign-up">
+      <div className="form-container sign-in">
         <form onSubmit={handleSubmit}>
-          <span>or use your email for registration</span>
+          <span>{t("recoveryPassword")}</span>
           <div className="password-container">
             <Input
               name="password"
-              type={showSignUpPassword ? "text" : "password"}
+              type="password"
               placeholder="Password"
-              value={formValues.password}
-              onChange={handleInputChange}
+              value={newPassword}
+              onChange={handlePasswordChange}
               error={formErrors.password}
               showPasswordToggle={true}
             />
           </div>
           <div className="password-container">
             <Input
-              name="password"
-              type={showSignUpPassword ? "text" : "password"}
-              placeholder="Password"
-              value={formValues.password}
-              onChange={handleInputChange}
-              error={formErrors.password}
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              error={passwordsMatch ? formErrors.confirmPassword : "Passwords do not match"}
               showPasswordToggle={true}
             />
           </div>
-          <Button type="submit" text="Cambiar contraseña" />
+          <Button
+            type="submit"
+            text={t("resetPassword")}
+            disabled={!passwordsMatch || !newPassword || !confirmPassword}
+          />
         </form>
       </div>
-            <div className="toggle-container">
+      <div className="toggle-container">
         <div className="toggle">
           <div className="toggle-panel toggle-right">
-            <h1>Hello, Friend</h1>
-            <p>Enter your personal details and start journey with us</p>
-            <Button id="register" text="Sign Up" />
+            <h1>{t("welcome")}</h1>
+            <p>{t("welcomeText")}</p>
+            <Button id="register" text={ t("signIn")} onClick={() => navigate("/login")}/>
           </div>
         </div>
       </div>

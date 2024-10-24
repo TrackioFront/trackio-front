@@ -7,5 +7,7 @@
     "welcomeText": "To track your work, log in with us",
     "hello": "Hello, Tracker",
     "resetPasswordText": "If you forgot your password, click on the button",
-    "resetPassword": "Reset Password"
+    "resetPassword": "Reset Password",
+    "sendCode": "Send code",
+    "recoveryPassword": "Recovery your password"
 }

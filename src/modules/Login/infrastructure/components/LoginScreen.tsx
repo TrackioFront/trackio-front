@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./LoginScreen.scss";
 import SignIn from "./SignIn/SignIn";
-import { PassRecovery } from "./PassRecovery/PassRecovery";
+import { PassRecovery } from "../../../PassRecovery/infrastructure/components/PassRecovery";
 
 
 const LoginScreen: React.FC = () => {

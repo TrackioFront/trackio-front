@@ -1,10 +1,11 @@
-import { User } from "../../../models/User";
+import { GenericResponse } from "../../../models/Http";
+import { TokenModel } from "../../../shared/domain/TokenModel";
 
-export interface DataToPassRecovery {
+export interface DataToPassRecovery extends TokenModel {
     email: string;
 }
 
 export interface IPassRecoveryController {
-    userPassRecovery(data: DataToPassRecovery): Promise<User>
-    sendCode(data: DataToPassRecovery): Promise<User>
+    userPassRecovery(data: DataToPassRecovery): Promise<GenericResponse>
+    sendCode(data: DataToPassRecovery): Promise<GenericResponse>
 }

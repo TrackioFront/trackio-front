@@ -1,11 +1,11 @@
 import { GenericResponse } from "../../../models/Http"
 
-export interface PassRecovery {
+export interface DataPassRecovery {
     email: string,
     code?: string
 }
 
 export interface IPassRecoveryController {
-    userPassRecovery(data: PassRecovery): Promise<Boolean>
-    sendCode(data: PassRecovery): Promise<GenericResponse>
+    userPassRecovery(data: DataPassRecovery): Promise<GenericResponse>
+    sendCode(data: DataPassRecovery): Promise<GenericResponse>
 }

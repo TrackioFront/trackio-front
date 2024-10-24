@@ -1,101 +1,62 @@
 import React, { useState } from "react";
-import "./PassRecovery.scss";
-import Input from "../../../../components/Input/Input";
-import Button from "../../../../components/Button/Button";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Input  from "../../../../components/Input/Input";
+import Button from "../../../../components/Button/Button";
+import { DataPassRecovery } from '../../domain/PassRecovery';
+import { emailValidate } from '../../../../utils/validate';
+import { GenericResponse } from "../../../../models/Http";
+import PassRecoveryUseCases from "../../application/PassRecoveryUseCases";
+import PassRecoveryController from "../controllers/PassRecovery.controller";
+import showAlert from "../../../../utils/alertService";
 
 
-interface PassRecoveryProps {
-  type: string;
-  name: string;
-  placeHolder: string;
-  value: string;
-  code: string;
-  classError: string;
-  codeSended: boolean;
-  onChangeEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onCode: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  sendData: (e: React.FormEvent<HTMLFormElement>) => void;
-}
+const passRecoveryController = new PassRecoveryController();
 
-const PassRecovery: React.FC<PassRecoveryProps> = ({
-  value,
-  onChangeEmail,
-  sendData,
-//   recoveryPassword,
-  onCode,
-}) => {
-  interface SignUpFormInputs {
-    email: string;
-  }
-  const [formErrors, setFormErrors] = useState<Partial<SignUpFormInputs>>({});
-  const [errors, setErrors] = useState({ email: "" });
-  const navigate = useNavigate();
+
+const PassRecovery: React.FC = () => {
   const { t } = useTranslation();
+  const [email, setEmail] = useState('');
+  const [classError, setClassError] = useState('');
 
-  const [formValues, setFormValues] = useState<SignUpFormInputs>({
-    email: "",
-  });
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newEmail = e.target.value;
+      const valid = emailValidate(newEmail);
+      setClassError(valid ? '' : 'invalid');
+      setEmail(newEmail);
+  }
 
-  const passRecovery = (): void => {
-    navigate("/resetPassword", { replace: true });
-  };
-
-  const validateForm = () => {
-    let errors: Partial<SignUpFormInputs> = {};
-    if (!formValues.email) errors.email = "Email is required";
-    return errors;
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const errors = validateForm();
-    if (Object.keys(errors).length === 0) {
-      console.log("Sign Up Data:", formValues);
-    } else {
-      setFormErrors(errors);
-    }
-  };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
-
-  return (
-    <div className="container">
-    <div className="form-container sign-up">
-        <form onSubmit={handleSubmit}>
+  const sendData = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (email === '') {
+          alert(t('requiredField'));
+          return;
+      }
+      const data = {
+          email
+      }
+      const response: GenericResponse = await PassRecoveryUseCases.sendCode(passRecoveryController, data);
+      console.log(response);
+      if (response.status === 200) {
+          showAlert(t("sendCode"), "success");
+          setEmail('');
+      }
+  }
+    
+    return (
+        <div className="form-container sign-up">
+        <form onSubmit={sendData}>
           <Input
             name="email"
             type="email"
             placeholder="Email"
-            value={formValues.email}
-            onChange={handleInputChange}
-            error={formErrors.email}
+            value={email}
+            onChange={onChangeEmail}
+            error={classError}
           />
-          <Button type="submit" text="Sign Up" />
+          <Button type="submit" text={t("resetPassword")} />
         </form>
-    </div>
-    <div className="toggle-container">
-        <div className="toggle">
-          <div className="toggle-panel toggle-right">
-            <h1>{t("helloTracker")}</h1>
-            <p>{t("textRecoveryPassword")}</p>
-            <Button
-              id="forgotPassword"
-              text={t("forgotPassword")}
-              onClick={() => navigate("/resetPassword", { replace: true })}
-
-            />
-          </div>
-        </div>
       </div>
-    </div>
-  );
-};
+    )
+}
 
-export { PassRecovery };
+export { PassRecovery }

@@ -26,28 +26,28 @@ const Input: React.FC<InputProps> = ({
   const inputType = showPassword && showPasswordToggle ? "text" : type;
 
   return (
-    <>
+    <div className="Input-wrapper">
       {label && <label htmlFor={name}>{label}</label>}
-        <input
-          id={name}
-          name={name}
-          type={inputType}
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          {...rest}
-          className={`Input ${error ? "input-error" : ""}`}
-        />
-        {showPasswordToggle && (
-          <span
-            className="password-toggle-icon"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </span>
-        )}
+      <input
+        id={name}
+        name={name}
+        type={inputType}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        {...rest}
+        className={`Input ${error ? "input-error" : ""}`}
+      />
+      {showPasswordToggle && (
+        <span
+          className="password-toggle-icon"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+      )}
       {error && <span className="error-text">{error}</span>}
-    </>
+    </div>
   );
 };
 
